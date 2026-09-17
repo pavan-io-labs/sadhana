@@ -1,0 +1,254 @@
+@import "tailwindcss";
+
+/*
+ * Sadhana design tokens.
+ *
+ * Dark is the base, not an alternative: the first thing this app does each day is get
+ * looked at in a dark room around 4:45 AM. Light is an explicit opt-in.
+ *
+ * Everything is expressed in oklch so that the three dosha hues are perceptually
+ * matched in lightness - the accent can swap through the day without one period
+ * looking louder than another.
+ *
+ * The `@theme inline` block below is deliberate: `inline` makes the generated
+ * utilities emit `var(--text-1)` rather than a copied colour value, so a nested
+ * `[data-dosha="pitta"]` can re-point `--accent` and every `text-accent` inside it
+ * follows. That is the whole mechanism behind the dosha-reactive interface.
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* Surfaces, from page to raised. */
+  --surface-0: oklch(0.16 0.012 265);
+  --surface-1: oklch(0.202 0.014 265);
+  --surface-2: oklch(0.25 0.016 265);
+  --surface-3: oklch(0.3 0.018 265);
+  --line: oklch(0.33 0.018 265);
+  --line-strong: oklch(0.45 0.02 265);
+
+  /* Text, from primary to muted. */
+  --text-1: oklch(0.95 0.008 265);
+  --text-2: oklch(0.78 0.012 265);
+  --text-3: oklch(0.62 0.014 265);
+
+  /* The three doshas. Matched in lightness so no period shouts. */
+  --vata: oklch(0.7 0.14 272);
+  --kapha: oklch(0.73 0.12 166);
+  --pitta: oklch(0.79 0.14 74);
+
+  /* Status. */
+  --ok: oklch(0.74 0.15 150);
+  --warn: oklch(0.81 0.14 85);
+  --danger: oklch(0.69 0.19 25);
+  --info: oklch(0.75 0.12 240);
+
+  /* Evidence tiers, used by the science cards and every badge that cites one. */
+  --tier-strong: oklch(0.74 0.15 150);
+  --tier-moderate: oklch(0.76 0.12 205);
+  --tier-weak: oklch(0.81 0.13 85);
+  --tier-traditional: oklch(0.73 0.09 305);
+
+  /* Accent, re-pointed by [data-dosha]. Vata is the pre-dawn default. */
+  --accent: var(--vata);
+  --accent-contrast: oklch(0.15 0.02 265);
+
+  --ring: color-mix(in oklch, var(--accent) 60%, transparent);
+  --shadow-card: 0 1px 2px oklch(0 0 0 / 0.4), 0 8px 24px -12px oklch(0 0 0 / 0.5);
+}
+
+/*
+ * Light theme. The dosha hues are darkened here rather than reused, because a hue that
+ * reads as calm on near-black reads as washed out on near-white.
+ */
+:root[data-theme="light"],
+:root[data-theme="system"] {
+  /* Overridden back to dark below when the OS asks for dark. */
+  color-scheme: light;
+
+  --surface-0: oklch(0.985 0.004 265);
+  --surface-1: oklch(1 0 0);
+  --surface-2: oklch(0.965 0.006 265);
+  --surface-3: oklch(0.935 0.008 265);
+  --line: oklch(0.9 0.008 265);
+  --line-strong: oklch(0.8 0.01 265);
+
+  --text-1: oklch(0.22 0.015 265);
+  --text-2: oklch(0.43 0.014 265);
+  --text-3: oklch(0.56 0.012 265);
+
+  --vata: oklch(0.5 0.16 272);
+  --kapha: oklch(0.47 0.12 166);
+  --pitta: oklch(0.55 0.14 66);
+
+  --ok: oklch(0.5 0.15 150);
+  --warn: oklch(0.55 0.14 75);
+  --danger: oklch(0.52 0.19 25);
+  --info: oklch(0.5 0.14 245);
+
+  --tier-strong: oklch(0.5 0.15 150);
+  --tier-moderate: oklch(0.5 0.12 215);
+  --tier-weak: oklch(0.55 0.13 75);
+  --tier-traditional: oklch(0.5 0.11 305);
+
+  --accent-contrast: oklch(0.99 0 0);
+  --shadow-card: 0 1px 2px oklch(0.2 0.02 265 / 0.06), 0 8px 24px -12px oklch(0.2 0.02 265 / 0.16);
+}
+
+/* "system" follows the OS, so it needs the dark values put back. */
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] {
+    color-scheme: dark;
+
+    --surface-0: oklch(0.16 0.012 265);
+    --surface-1: oklch(0.202 0.014 265);
+    --surface-2: oklch(0.25 0.016 265);
+    --surface-3: oklch(0.3 0.018 265);
+    --line: oklch(0.33 0.018 265);
+    --line-strong: oklch(0.45 0.02 265);
+
+    --text-1: oklch(0.95 0.008 265);
+    --text-2: oklch(0.78 0.012 265);
+    --text-3: oklch(0.62 0.014 265);
+
+    --vata: oklch(0.7 0.14 272);
+    --kapha: oklch(0.73 0.12 166);
+    --pitta: oklch(0.79 0.14 74);
+
+    --ok: oklch(0.74 0.15 150);
+    --warn: oklch(0.81 0.14 85);
+    --danger: oklch(0.69 0.19 25);
+    --info: oklch(0.75 0.12 240);
+
+    --tier-strong: oklch(0.74 0.15 150);
+    --tier-moderate: oklch(0.76 0.12 205);
+    --tier-weak: oklch(0.81 0.13 85);
+    --tier-traditional: oklch(0.73 0.09 305);
+
+    --accent-contrast: oklch(0.15 0.02 265);
+    --shadow-card: 0 1px 2px oklch(0 0 0 / 0.4), 0 8px 24px -12px oklch(0 0 0 / 0.5);
+  }
+}
+
+/*
+ * The dosha accent. Any element carrying data-dosha re-points --accent for its whole
+ * subtree, so the shell can tint itself from the current period while a science card
+ * about Pitta can tint itself independently.
+ *
+ * Colour is never the only signal - every band and badge in the app also carries its
+ * name in text, because "the interface is greenish" is not information.
+ */
+[data-dosha="vata"] {
+  --accent: var(--vata);
+}
+
+[data-dosha="kapha"] {
+  --accent: var(--kapha);
+}
+
+[data-dosha="pitta"] {
+  --accent: var(--pitta);
+}
+
+/* Opting out keeps one steady accent all day. */
+[data-dosha-accent="off"] {
+  --accent: var(--vata);
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --color-surface-0: var(--surface-0);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-text-1: var(--text-1);
+  --color-text-2: var(--text-2);
+  --color-text-3: var(--text-3);
+
+  --color-vata: var(--vata);
+  --color-kapha: var(--kapha);
+  --color-pitta: var(--pitta);
+
+  --color-accent: var(--accent);
+  --color-accent-contrast: var(--accent-contrast);
+
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+
+  --color-tier-strong: var(--tier-strong);
+  --color-tier-moderate: var(--tier-moderate);
+  --color-tier-weak: var(--tier-weak);
+  --color-tier-traditional: var(--tier-traditional);
+
+  --radius-card: 0.875rem;
+  --shadow-card: var(--shadow-card);
+}
+
+@layer base {
+  html {
+    /* Next 16 no longer forces smooth scrolling; this restores it for in-page anchors. */
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--surface-0);
+    color: var(--text-1);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Visible focus everywhere, keyboard-only, in the current accent. */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: color-mix(in oklch, var(--accent) 35%, transparent);
+  }
+
+  /* Tabular figures wherever a number is being compared to another number. */
+  .nums {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+}
+
+/*
+ * Motion. Two switches, both honoured: the OS preference and the in-app setting, since
+ * a user can want animation off in this app specifically.
+ */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+[data-reduce-motion="true"] *,
+[data-reduce-motion="true"] *::before,
+[data-reduce-motion="true"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+@utility card {
+  background: var(--surface-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
